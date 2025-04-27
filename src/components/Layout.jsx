@@ -64,6 +64,7 @@ const Layout = ({ children ,update}) => {
     { label: 'Products', href: '/products' },
     { label: 'Category', href: '/category' },
     { label: 'Contact us', href: '/contact-us' },
+   
   ];
 
   const mobileLink = (href) => {
@@ -327,14 +328,26 @@ const Layout = ({ children ,update}) => {
               </button>
 
             </div>
-            
-              
+          
+
           } 
-          {menus.map((item, index) => (
-            <button onClick={() => mobileLink(item.href)} key={index} className='text-white'>
-              {item.label}
-            </button>
-          ))}
+          <ul className='space-y-2'>
+              {menus.map((item, index) => (
+                <li key={index} className='text-gray-100 mb-3'>
+                  <Link to={item.href}>{item.label}</Link>
+                </li>
+              ))}
+              <li>
+                <Link to='/login' className='text-gray-100 mb-3'>
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link to='/signup' className='text-gray-100 mb-3'>
+                  Signup
+                </Link>
+              </li>
+            </ul>
         </div>
       </aside>
     </div>
