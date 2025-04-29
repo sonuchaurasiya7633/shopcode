@@ -112,7 +112,7 @@ const Cart = () => {
       }
 
     
-      const { data } = await axios.post("http://localhost:8080/order", {
+      const { data } = await axios.post("http://localhost:8085/order", {
         amount: amount * 100,
       });
       console.log(data);

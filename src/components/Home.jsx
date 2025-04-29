@@ -92,7 +92,7 @@ console.log(address)
       product.status= "pending"
       const amount = product.price-(product.price*product.discount)/100
      
-      const { data } = await axios.post('http://localhost:8080/order', { amount:amount*100}); 
+      const { data } = await axios.post('http://localhost:8085/order', { amount:amount*100}); 
   
       
       const options = {
