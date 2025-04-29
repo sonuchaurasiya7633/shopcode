@@ -280,76 +280,90 @@ const Layout = ({ children ,update}) => {
       </footer>
 
       <aside
-        className='overflow-hidden md:hidden bg-slate-900 shadow-lg fixed top-0 left-0 h-full z-50'
-        style={{
-          width: open ? 250 : 0,
-          transition: 'width 0.3s ease-in-out',
-        }}
-      >
-
-        <div className='flex flex-col p-8 gap-6'>
-            
-           {
-            session && 
+  className='overflow-hidden md:hidden bg-slate-900 shadow-lg fixed top-0 left-0 h-full z-50'
+  style={{
+    width: open ? 250 : 0,
+    transition: 'width 0.3s ease-in-out',
+  }}
+>
+  <div className='flex flex-col p-8 gap-6'>
+    {session && (
+      <div>
+        <button className='relative' onClick={() => setAccountMenu(!accountMenu)}>
+          <div className='flex items-center gap-3'>
+            <img
+              src={session.photoURL ? session.photoURL : '/images/avtar.jpeg'}
+              className='w-10 h-10 rounded-full hover:border hover:border-blue-500'
+              alt='User Avatar'
+            />
             <div>
-             <button className='relative ' onClick={() => setAccountMenu(!accountMenu)}>
-              
-                <div className='flex items-center gap-3'>
-                <img
-                   src={session && session.photoURL ? session.photoURL : '/                 images/avtar.jpeg'}
-                   className="w-10 h-10 rounded-full hover:border                  hover:border-blue-500"
-                  />
-                   <div>
-                   <p className='text-white capitalize text-left'>{session.displayName}</p>
-                   <p className='text-white '>{session.email}</p>
-                   </div>
-                   </div>
-                
-                {accountMenu && (
-                  <div className='flex flex-col  items-start w-[150px] py-2  bg-white absolute top-12 right-0 animate-pulse shadow-xl shadow-gray-400'>
-
-                    
-                    <Link to='/profile' className='w-full px-3 py-2 text-left hover:bg-gray-100'>
-                    <i className="ri-user-line mr-2"></i>
-                       My Profile
-                    </Link>
-                    <Link to='/cart' className='w-full text-left px-3 py-2 hover:bg-gray-100'>
-                    <i className="ri-shopping-cart-2-line mr-2"></i>
-                       Cart
-                    </Link>
-                    <button 
-                    className='w-full text-left px-3 py-2 hover:bg-gray-100' onClick={()=>signOut(auth)}
-                    >
-                    <i className="ri-logout-circle-line mr-2"></i>
-                      Log out
-                      </button>
-                  </div>
-                )}
-              </button>
-
+              <p className='text-white capitalize text-left'>{session.displayName}</p>
+              <p className='text-white'>{session.email}</p>
             </div>
-          
+          </div>
 
-          } 
-          <ul className='space-y-2'>
-              {menus.map((item, index) => (
-                <li key={index} className='text-gray-100 mb-3'>
-                  <Link to={item.href}>{item.label}</Link>
-                </li>
-              ))}
-              <li>
-                <Link to='/login' className='text-gray-100 mb-3'>
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link to='/signup' className='text-gray-100 mb-3'>
-                  Signup
-                </Link>
-              </li>
-            </ul>
-        </div>
-      </aside>
+          {accountMenu && (
+            <div className='flex flex-col items-start w-[150px] py-2 bg-white absolute top-12 right-0 animate-pulse shadow-xl shadow-gray-400'>
+
+              {/* Admin Panel - Only in Mobile and Logged in */}
+              <Link
+                to='/admin'
+                className='w-full px-3 py-2 text-left hover:bg-gray-100 block md:hidden'
+              >
+                <i className='ri-dashboard-line mr-2'></i>
+                Admin Panel
+              </Link>
+
+              <Link to='/profile' className='w-full px-3 py-2 text-left hover:bg-gray-100'>
+                <i className='ri-user-line mr-2'></i>
+                My Profile
+              </Link>
+              <Link to='/cart' className='w-full text-left px-3 py-2 hover:bg-gray-100'>
+                <i className='ri-shopping-cart-2-line mr-2'></i>
+                Cart
+              </Link>
+              <button
+                className='w-full text-left px-3 py-2 hover:bg-gray-100'
+                onClick={() => signOut(auth)}
+              >
+                <i className='ri-logout-circle-line mr-2'></i>
+                Log out
+              </button>
+            </div>
+          )}
+        </button>
+      </div>
+    )}
+
+    <ul className='space-y-2'>
+      {menus.map((item, index) => (
+        <li key={index} className='text-gray-100 mb-3'>
+          <button onClick={() => mobileLink(item.href)} className='text-left'>
+            {item.label}
+          </button>
+        </li>
+      ))}
+
+      {/* Login / Signup - Only Mobile and Not Logged In */}
+      {!session && (
+        <>
+          <li className='block md:hidden'>
+            <button onClick={() => mobileLink('/login')} className='text-left text-gray-100 mb-3'>
+              Login
+            </button>
+          </li>
+          <li className='block md:hidden'>
+            <button onClick={() => mobileLink('/signup')} className='text-left text-gray-100 mb-3'>
+              Signup
+            </button>
+          </li>
+        </>
+      )}
+    </ul>
+  </div>
+</aside>
+
+
     </div>
   );
 };
